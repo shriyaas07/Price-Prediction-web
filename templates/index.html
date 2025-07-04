@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flight Price Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Left: Form Section -->
+        <div class="form-container">
+            <h2>✈️ Flight Price Predictor</h2>
+            <form method="POST">
+                <label for="airline">Airline:</label>
+                <select name="airline" required>
+                    <option disabled selected>Select Airline</option>
+                    <option>IndiGo</option>
+                    <option>Air India</option>
+                    <option>SpiceJet</option>
+                    <option>Vistara</option>
+                    <option>GoAir</option>
+                </select>
+
+                <label for="source">From:</label>
+                <input type="text" name="source" list="cities" required>
+                <label for="destination">To:</label>
+                <input type="text" name="destination" list="cities" required>
+                <datalist id="cities">
+                    {% for city in city_list %}
+                        <option value="{{ city }}">
+                    {% endfor %}
+                </datalist>
+
+                <label for="stops">Stops (0–2):</label>
+                <input type="number" name="stops" min="0" max="2" required>
+
+                <label for="duration">Duration (mins):</label>
+                <input type="number" name="duration" required>
+
+                <label for="lead_time">Lead Time (Days):</label>
+                <input type="number" name="lead_time" required>
+
+                <label for="booking_slot">Booking Slot:</label>
+                <select name="booking_slot" required>
+                    <option disabled selected>Select</option>
+                    <option>Morning</option>
+                    <option>Afternoon</option>
+                    <option>Evening</option>
+                    <option>Night</option>
+                </select>
+
+                <button type="submit">Predict Price</button>
+            </form>
+
+            {% if prediction %}
+                <h3 class="result"> Predicted Price: ₹{{ prediction|round(0) }}</h3>
+            {% endif %}
+        </div>
+
+        <!-- Right: Charts Section -->
+        <div class="chart-container">
+            <h3>Dynamic Price Charts</h3>
+            <img src="{{ url_for('static', filename='chart1.png') }}" class="chart-img">
+            <img src="{{ url_for('static', filename='chart2.png') }}" class="chart-img">
+            <img src="{{ url_for('static', filename='chart3.png') }}" class="chart-img">
+        </div>
+    </div>
+</body>
+</html>
